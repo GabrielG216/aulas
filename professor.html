@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Professor</title>
+    <link rel="stylesheet" href="css/professor.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/config.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <!-- Day.js para manipulação de datas -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.10"></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4"></script>
+</head>
+<body>
+    <header>
+        <h1 class="title-header">Aulas Online - Área do Professor</h1>
+        <div class="header-right">
+            <button class="button-header" id="configBtn" onclick="openConfigProf()" title="Configurações" style="background: none; border: none; cursor: pointer; padding: 10px;">
+                <img src="img/perfil-icon-branco.png" alt="Configurações" style="width: 24px; height: 24px;">
+            </button>
+        </div>
+    </header>
+
+    <div class="container-professor">
+        <h2 class="subtitle-first">Bem vindo Professor!</h2>
+
+        <!-- Abas de Navegação -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('alunos')">Alunos</button>
+            <button class="tab-btn" onclick="switchTab('pagamentos')">Pagamentos</button>
+            <button class="tab-btn" onclick="switchTab('tarefas')">Preparar Aula</button>
+        </div>
+
+        <!-- Aba Alunos -->
+        <div id="alunos-tab" class="tab-content active">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Procurar aluno..." onkeyup="filterStudents()">
+            </div>
+
+            <h3>Alunos Ativos</h3>
+            <div id="studentsList" class="students-list">
+                <!-- Alunos carregados dinamicamente -->
+            </div>
+
+            <h3 style="margin-top: 40px;">Alunos Inativos</h3>
+            <div id="inactiveStudentsList" class="students-list">
+                <!-- Alunos inativos carregados dinamicamente -->
+            </div>
+        </div>
+
+        <!-- Aba Pagamentos -->
+        <div id="pagamentos-tab" class="tab-content">
+            <h3>Pagamentos Pendentes</h3>
+            <div id="pendingPaymentsList" class="payments-list">
+                <!-- Pagamentos pendentes carregados dinamicamente -->
+            </div>
+        </div>
+
+        <!-- Aba Preparar Aula -->
+        <div id="tarefas-tab" class="tab-content">
+            <div class="prepare-lesson">
+                <h3>Preparar Aula</h3>
+                <div class="exercise-types">
+                    <button class="exercise-type-btn" onclick="selectExerciseType('Caminhos/Corridas')">
+                        <img style="object-fit: cover;" src="img/caminhada-icon.png" alt="Corrida">
+                        <span>Caminhada/Corridas</span>
+                    </button>
+                    <button class="exercise-type-btn" onclick="selectExerciseType('Pedaladas')">
+                        <img src="img/pedalada-icon.png" alt="Pedalada">
+                        <span>Pedalada</span>
+                    </button>
+                    <button class="exercise-type-btn" onclick="selectExerciseType('Musculação')">
+                        <img src="img/musculo-icon.png" alt="Musculação">
+                        <span>Musculação</span>
+                    </button>
+                </div>
+
+                <div id="exerciseForm" style="display: none;">
+                    <form id="prepareAulaForm">
+                        <div class="form-group">
+                            <label for="exerciseType">Tipo de Exercício:</label>
+                            <input type="text" id="exerciseType" readonly style="background-color: #444;">
+                        </div>
+                        <div class="form-group">
+                            <label for="exerciseDetails">Detalhes:</label>
+                            <textarea id="exerciseDetails" placeholder="Descreva o exercício..." rows="6" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentSelect">Enviar para:</label>
+                            <select id="studentSelect" required>
+                                <option value="" disabled>Selecione um aluno...</option>
+                                <!-- Opções carregadas dinamicamente -->
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">Finalizar</button>
+                            <button type="button" class="btn-secondary" onclick="cancelExercise()">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Informações do Aluno -->
+    <div id="editStudentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditStudentModal()">&times;</span>
+            <h2>Editar Informações do Aluno</h2>
+            <form id="editStudentForm">
+                <div class="form-group">
+                    <label for="studentName">Nome:</label>
+                    <div class="name-history-container">
+                        <input type="text" id="studentName" readonly style="background-color: #444;">
+                        <button type="button" class="btn-info" onclick="showNameHistory()">
+                            <img src="img/info.png" alt="Histórico" style="width:20px;height:20px;object-fit:contain;">
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="studentAge">Idade:</label>
+                    <input type="text" id="studentAge" readonly style="background-color: #444;">
+                </div>
+                <div class="form-group">
+                    <label for="paymentDay">Dia de Pagamento:</label>
+                    <select id="paymentDay" required>
+                        <!-- Dias do mês 1-31 -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="monthlyCost">Custo Mensal (R$):</label>
+                    <input type="number" id="monthlyCost" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="isInactive">
+                        Marcar aluno como inativo
+                    </label>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn-primary">Salvar edições</button>
+                    <button type="button" class="btn-secondary" onclick="closeEditStudentModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Histórico de Nomes -->
+    <div id="nameHistoryModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNameHistoryModal()">&times;</span>
+            <h2>Histórico de Nomes</h2>
+            <div id="nameHistoryList" class="history-list">
+                <!-- Histórico carregado dinamicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Configurações Professor -->
+    <div id="configModalProf" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="closeConfigProf()">&times;</span>
+            <h2>Configurações</h2>
+            
+            <!-- Seção de Tema -->
+            <div class="config-section">
+                <h3>Aparência</h3>
+                <div class="theme-toggle">
+                    <label for="themeToggleProf">Modo Claro</label>
+                    <button class="toggle-switch" id="themeToggleProf" onclick="toggleTheme(); updateThemeToggleProfUI()"></button>
+                </div>
+            </div>
+
+            <!-- Seção de Sair -->
+            <div class="config-section">
+                <h3>Sessão</h3>
+                <button type="button" class="btn-save" style="background-color: #e74c3c; width: 100%;" onclick="logout()">Sair da Conta</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/toast.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/professor.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="br-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login do Aluno</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4"></script>
+</head>
+<body>
+    <header>
+        <h1 class="title-header">Aulas Online - Login do Aluno</h1>
+
+        <a href="index.html"><button class="button-header">Voltar</button></a>
+    </header>
+
+    <div class="card">
+        <form id="loginAlunoForm" class="form-login">
+            <div>
+                <div class="label-img"><img src="img/email-icon.png" alt=""> <label for="email">Email:</label></div>
+                <input type="email" id="email" name="email" required placeholder="Insira seu E-mail...">
+
+                <div class="label-img"><img src="img/senha-icon.png" alt=""><label for="password">Senha:</label></div>
+                <input type="password" id="password" name="password" required placeholder="Insira sua senha...">
+            </div>
+
+            <p id="error-msg" class="error" style="display:none;margin-top:4px;font-weight:400;margin-bottom: 5px;">Email ou senha incorretos.</p>
+
+            <button type="submit" class="button-login">Entrar</button>
+        </form>
+
+        <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://aakygtqakbibblymiros.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_sS5thkUnpl_pMGjP1gHo9A_FJx-PtwU';
+
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        document.getElementById('loginAlunoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+            const btn = e.target.querySelector('button[type="submit"]');
+
+            try {
+                btn.disabled = true;
+                btn.textContent = 'Entrando...';
+
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) {
+                    errorMsg.textContent = error.message || 'Email ou senha incorretos.';
+                    errorMsg.style.display = 'block';
+                    setTimeout(() => { errorMsg.style.display = 'none'; }, 3000);
+                    return;
+                }
+
+                // Guardar sessão
+                localStorage.setItem('authToken', data.session.access_token);
+                localStorage.setItem('userType', 'student');
+
+                // Redirecionar
+                window.location.href = 'aluno.html';
+            } catch (err) {
+                console.error('Erro:', err);
+                errorMsg.textContent = 'Erro ao conectar. Tente novamente.';
+                errorMsg.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Entrar';
+            }
+        });
+    </script>
+    <script src="js/toast.js"></script>
+</body>
+</html>

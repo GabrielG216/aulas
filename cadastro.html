@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro do aluno</title>
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4"></script>
+</head>
+<body>
+    <header>
+        <h1 class="title-header">Aulas Online - Cadastro do Aluno</h1>
+
+        <a href="index.html"><button class="button-header">Voltar</button></a>
+    </header>
+
+    <div class="card">
+        <form id="cadastroForm" class="form-login">
+            <div>
+                <div class="label-img"><img src="img/email-icon.png" alt=""> <label for="email">Email:</label></div>
+                <input type="email" id="email" name="email" required placeholder="Insira seu E-mail...">
+
+                <div class="label-img"><img src="img/user-icon.png" alt=""> <label for="nome">Nome:</label></div>
+                <input type="text" id="nome" name="nome" required placeholder="Insira seu nome...">
+
+                <div class="label-img"><img src="img/senha-icon.png" alt=""><label for="password">Senha:</label></div>
+                <input type="password" id="password" name="password" required placeholder="Insira sua senha...">
+
+                <div class="label-img"><img src="img/icon-calendario.png" alt=""><label for="nascimento">Data de Nascimento:</label></div>
+                <input type="date" id="nascimento" name="nascimento" required>
+            </div>
+
+            <button type="submit" class="button-login">Cadastrar</button>
+        </form>
+
+        <p>Já tem uma conta? <a href="login-aluno.html">Entre</a></p>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://aakygtqakbibblymiros.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_sS5thkUnpl_pMGjP1gHo9A_FJx-PtwU';
+
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        document.getElementById('cadastroForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const nome = document.getElementById('nome').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const nascimento = document.getElementById('nascimento').value;
+            const btn = e.target.querySelector('button[type="submit"]');
+
+            try {
+                btn.disabled = true;
+                btn.textContent = 'Cadastrando...';
+
+                // Validar
+                if (!email || !nome || !password || !nascimento) {
+                    Toast.warning('Por favor, preencha todos os campos.');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    Toast.warning('A senha deve ter pelo menos 6 caracteres.');
+                    return;
+                }
+
+                // Criar usuário
+                const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            user_type: 'student'
+                        }
+                    }
+                });
+
+                if (authError) {
+                    Toast.error('Erro ao criar conta: ' + authError.message);
+                    return;
+                }
+
+                // Criar perfil do aluno
+                const { error: profileError } = await supabaseClient
+                    .from('students')
+                    .insert({
+                        user_id: authData.user.id,
+                        name: nome,
+                        email: email,
+                        birth_date: nascimento,
+                        payment_day: null,
+                        monthly_cost: 0,
+                        is_active: true,
+                        name_history: [
+                            { 
+                                name: nome, 
+                                changed_at: new Date().toISOString()
+                            }
+                        ],
+                        created_at: new Date().toISOString()
+                    });
+
+                if (profileError) {
+                    Toast.error('Erro ao criar perfil: ' + profileError.message);
+                    return;
+                }
+
+                Toast.success('Cadastro realizado com sucesso! Faça login para continuar.');
+                window.location.href = 'login-aluno.html';
+            } catch (err) {
+                console.error('Erro:', err);
+                Toast.error('Erro ao cadastrar. Tente novamente.');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Cadastrar';
+            }
+        });
+    </script>
+    <script src="js/toast.js"></script>
+</body>
+</html>

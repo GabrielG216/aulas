@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas Online - Área do Aluno</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/aluno.css">
+    <link rel="stylesheet" href="css/config.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4"></script>
+</head>
+<body>
+    <header>
+        <h1 class="title-header">Aulas Online</h1>
+        <div class="header-right">
+            <button class="button-header" id="configBtn" onclick="openConfig()" title="Configurações" style="background: none; border: none; cursor: pointer; padding: 10px;">
+                <img src="img/perfil-icon-branco.png" alt="Configurações" style="width: 45px; height: 45px;">
+            </button>
+        </div>
+    </header>
+
+    <div class="container-aluno">
+        <!-- Status de Pagamento -->
+        <section class="payment-status-section">
+            <h3>Status de Pagamento</h3>
+            <div class="payment-info">
+                <p><strong>Próximo pagamento:</strong> <span id="paymentDate">--</span></p>
+                <p id="paymentStatus"><strong>Status:</strong> <span class="status-paid">Em Dia</span></p>
+            </div>
+        </section>
+
+        <!-- Aba Configurações (Modal) -->
+        <div id="configModal" class="modal">
+            <div class="modal-content" style="max-width: 600px;">
+                <span class="close" onclick="closeConfig()">&times;</span>
+                <h2>Configurações</h2>
+                
+                <!-- Seção de Tema -->
+                <div class="config-section">
+                    <h3>Aparência</h3>
+                    <div class="theme-toggle">
+                        <label for="themeToggle">Modo Claro</label>
+                        <button class="toggle-switch" id="themeToggle" onclick="toggleTheme(); updateThemeToggleUI()"></button>
+                    </div>
+                </div>
+
+                <!-- Seção de Perfil -->
+                <div class="config-section">
+                    <h3>Perfil</h3>
+                    <div class="profile-config">
+                        <div class="profile-config-photo">
+                            <img id="configProfileImg" src="img/profile-default.png" alt="Foto de perfil">
+                            <div class="profile-config-info">
+                                <label>Foto de Perfil</label>
+                                <input type="file" id="newPhoto" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div class="profile-config-name">
+                            <label for="configNewName">Nome</label>
+                            <input type="text" id="configNewName" required>
+                        </div>
+
+                        <div class="button-group-config">
+                            <button type="button" class="btn-save" onclick="saveConfigProfile()">Salvar Alterações</button>
+                            <button type="button" class="btn-cancel" onclick="closeConfig()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção de Sair -->
+                <div class="config-section">
+                    <h3>Sessão</h3>
+                    <button type="button" class="btn-save" style="background-color: #e74c3c; width: 100%;" onclick="logout()">Sair da Conta</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Treinos de Hoje -->
+        <section class="workouts-section">
+            <h2>Treinos de Hoje</h2>
+            <div id="workoutsList" class="workouts-list">
+                <!-- Treinos serão carregados aqui dinamicamente -->
+            </div>
+        </section>
+    </div>
+
+    <script src="js/toast.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/aluno.js"></script>
+</body>
+</html>
