@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: black;
+    color: white;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    margin: 100px auto;
+    width: 90%;
+    max-width: 1600px;
+    gap: 90px;
+}
+
+.first-index-div{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.first-text{
+    color: white;
+    font-size: 33px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.second-text{
+    color: #949494;
+    font-size: 30px;
+    font-weight: 300;
+    margin-top: 10px;
+    line-height: 1.4;
+}
+
+.buttons-index{
+    display: flex;
+    gap: 60px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.button-area{
+    background-color: #2ba7df;
+    color: white;
+    border: none;
+    padding: 20px 32px;
+    border-radius: 10px;
+    font-size: 26px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 500;
+}
+
+.button-area:hover{
+    background-color: #1574a3;
+    transform: translateY(-2px);
+}
+
+.button-area:active {
+    transform: translateY(0);
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Responsivo - Tablet */
+@media (max-width: 1024px) {
+    .container {
+        margin: 60px auto;
+        gap: 60px;
+    }
+
+    .first-text {
+        font-size: 28px;
+    }
+
+    .second-text {
+        font-size: 24px;
+    }
+
+    .buttons-index {
+        gap: 40px;
+    }
+
+    .button-area {
+        padding: 18px 28px;
+        font-size: 22px;
+    }
+}
+
+/* Responsivo - Mobile */
+@media (max-width: 768px) {
+    .container {
+        margin: 50px auto;
+        width: 95%;
+        gap: 50px;
+    }
+
+    .first-text {
+        font-size: 24px;
+    }
+
+    .second-text {
+        font-size: 20px;
+    }
+
+    .buttons-index {
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    .button-area {
+        padding: 16px 24px;
+        font-size: 18px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 30px auto;
+        width: 100%;
+        padding: 0 15px;
+        gap: 40px;
+    }
+
+    .first-text {
+        font-size: 20px;
+    }
+
+    .second-text {
+        font-size: 18px;
+    }
+
+    .buttons-index {
+        gap: 15px;
+    }
+
+    .button-area {
+        padding: 14px 20px;
+        font-size: 16px;
+    }
+}

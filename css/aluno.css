@@ -1,0 +1,385 @@
+/* Estilos Área do Aluno */
+
+.container-aluno {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* Seção de Status de Pagamento */
+.payment-status-section {
+    background-color: #2B2B2B;
+    padding: 30px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.payment-status-section h3 {
+    color: white;
+    font-size: 22px;
+    margin: 0;
+}
+
+.payment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-info p {
+    color: #949494;
+    font-size: 16px;
+    margin: 0;
+}
+
+.payment-info strong {
+    color: white;
+}
+
+.status-paid {
+    color: #4caf50;
+    font-weight: 600;
+}
+
+.status-pending {
+    color: #ff9800;
+    font-weight: 600;
+}
+
+.status-overdue {
+    color: #f44336;
+    font-weight: 600;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background-color: #2B2B2B;
+    margin: 10% auto;
+    padding: 35px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    color: #949494;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: white;
+}
+
+.modal-content h2 {
+    color: white;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.form-group input {
+    background-color: #0F0F0F;
+    border: 1px solid #444;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #2ba7df;
+}
+
+.info-text {
+    color: #949494;
+    font-size: 13px;
+    margin: 0;
+}
+
+.btn-primary {
+    background-color: #2ba7df;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #1574a3;
+}
+
+/* Tema Claro - Melhorias de Contraste */
+body.light-theme .payment-status-section {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .payment-status-section h3 {
+    color: #222;
+    border-bottom: 2px solid #2ba7df;
+    padding-bottom: 10px;
+}
+
+body.light-theme .payment-info p {
+    color: #555;
+}
+
+body.light-theme .payment-info strong {
+    color: #222;
+}
+
+body.light-theme .workout-card {
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .workout-details h3 {
+    color: #222;
+}
+
+body.light-theme .workout-description {
+    color: #666;
+}
+
+body.light-theme .workouts-section h2 {
+    color: #222;
+}
+
+body.light-theme .empty-state {
+    color: #999;
+}
+
+/* Seção de Treinos */
+.workouts-section {
+    margin-bottom: 40px;
+}
+
+.workouts-section h2 {
+    color: white;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.workouts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.workout-card {
+    background-color: #2B2B2B;
+    border-radius: 15px;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.workout-image {
+    width: 100%;
+    height: 250px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.workout-details h3 {
+    color: white;
+    font-size: 24px;
+    margin: 0 0 15px 0;
+}
+
+.workout-type {
+    display: inline-block;
+    background-color: #2ba7df;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.workout-description {
+    color: #949494;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.empty-state {
+    color: #949494;
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 18px;
+}
+
+/* Responsivo - Tablet */
+@media (max-width: 768px) {
+    .container-aluno {
+        gap: 30px;
+        margin: 30px auto;
+        padding: 0 15px;
+    }
+
+    .payment-status-section {
+        padding: 25px;
+    }
+
+    .workout-card {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .workout-image {
+        height: 200px;
+    }
+
+    .workout-details h3 {
+        font-size: 20px;
+    }
+
+    .payment-info p {
+        font-size: 15px;
+    }
+
+    .workouts-section h2 {
+        font-size: 28px;
+    }
+}
+
+/* Responsivo - Mobile */
+@media (max-width: 480px) {
+    .container-aluno {
+        margin: 20px auto;
+        padding: 0 10px;
+        gap: 25px;
+    }
+
+    header {
+        margin: 0 15px;
+        padding: 15px 0 0 0;
+    }
+
+    .payment-status-section {
+        padding: 20px;
+        gap: 10px;
+    }
+
+    .payment-status-section h3 {
+        font-size: 18px;
+    }
+
+    .payment-info {
+        gap: 10px;
+    }
+
+    .payment-info p {
+        font-size: 14px;
+    }
+
+    .workout-card {
+        padding: 15px;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        border-radius: 10px;
+    }
+
+    .workout-image {
+        height: 180px;
+        border-radius: 8px;
+    }
+
+    .workout-details h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .workout-type {
+        padding: 5px 10px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .workout-description {
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    .workouts-section {
+        margin-bottom: 30px;
+    }
+
+    .workouts-section h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .empty-state {
+        padding: 40px 15px;
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,127 @@
+header{
+    background-color: black;
+    border-bottom: 4px solid #2ba7df;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px 0px 0px 0px;
+    margin: 0px 50px;
+}
+
+.title-header{
+    color: #2ba7df;
+    font-size: 35px;
+    font-weight: 400;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.user-greeting {
+    color: #949494;
+    font-size: 16px;
+}
+
+.button-header{
+    background-color: #2ba7df;
+    color: white;
+    border: none;
+    padding: 15px 22px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.button-header:hover {
+    background-color: #1574a3;
+}
+
+/* Tema Claro */
+body.light-theme header {
+    background-color: #ffffff;
+    border-bottom-color: #2ba7df;
+}
+
+body.light-theme .title-header {
+    color: #2ba7df;
+}
+
+body.light-theme .button-header {
+    background-color: #2ba7df;
+    color: white;
+}
+
+body.light-theme .user-greeting {
+    color: #666;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    header {
+        margin: 0px 25px;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .title-header {
+        font-size: 24px;
+        flex: 1;
+    }
+
+    .header-right {
+        flex: 1;
+        justify-content: flex-end;
+    }
+
+    .button-header {
+        padding: 12px 18px;
+        font-size: 16px;
+        margin-bottom: 0;
+    }
+
+    .user-greeting {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        margin: 0px 15px;
+        padding: 15px 0px 0px 0px;
+        gap: 10px;
+    }
+
+    .title-header {
+        font-size: 18px;
+        flex: 1;
+    }
+
+    .header-right {
+        gap: 10px;
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .button-header {
+        padding: 10px 15px;
+        font-size: 14px;
+        margin-bottom: 0;
+    }
+
+    .button-header img {
+        width: 28px !important;
+        height: 28px !important;
+    }
+
+    .user-greeting {
+        display: none;
+    }
+}
